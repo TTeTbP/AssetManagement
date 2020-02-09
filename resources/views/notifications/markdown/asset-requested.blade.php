@@ -13,6 +13,7 @@
 @if (isset($qty))
 | **{{ trans('general.qty') }}** | {{ $qty }}
 @endif
+| **Details** | {{ $details }} |
 | **{{ trans('mail.user') }}** | [{{ $requested_by->present()->fullName() }}]({{ route('users.show', $requested_by->id) }}) |
 | **{{ trans('general.requested') }}** | {{ $requested_date }} |
 @if ((isset($item->asset_tag)) && ($item->asset_tag!=''))

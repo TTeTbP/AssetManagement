@@ -108,16 +108,12 @@
 
                                                 <td>{{$requestableModel->name}}</td>
                                                 <td>{{$requestableModel->assets->where('requestable', '1')->count()}}</td>
-
                                                 <td>
                                                     <form  action="{{route('account/request-item', ['itemType' => 'asset_model', 'itemId' => $requestableModel->id])}}" method="POST" accept-charset="utf-8">
                                                         {{ csrf_field() }}
+						    <input type="text" style="width: 200px; margin-right: 10px;" class="form-control pull-left" name="info" value="" placeholder="What do you need this for?">
                                                     <input type="text" style="width: 70px; margin-right: 10px;" class="form-control pull-left" name="request-quantity" value="" placeholder="{{ trans('general.qty') }}">
-                                                    @if ($requestableModel->isRequestedBy(Auth::user()))
-                                                        {{ Form::submit(trans('button.cancel'), ['class' => 'btn btn-danger btn-sm'])}}
-                                                    @else
-                                                        {{ Form::submit(trans('button.request'), ['class' => 'btn btn-primary btn-sm'])}}
-                                                    @endif
+                                                      {{ Form::submit(trans('button.request'), ['class' => 'btn btn-primary btn-sm'])}}
                                                     </form>
                                                 </td>
                                         </tr>

@@ -101,7 +101,7 @@ class ViewAssetsController extends Controller
         }
         $logaction->target_id = $data['user_id'] = Auth::user()->id;
         $logaction->target_type = User::class;
-
+        $data['item_details'] = Input::get('info','No details specified Yo');
         $data['item_quantity'] = Input::has('request-quantity') ? e(Input::get('request-quantity')) : 1;
         $data['requested_by'] = $user->present()->fullName();
         $data['item'] = $item;
@@ -117,29 +117,13 @@ class ViewAssetsController extends Controller
         }
 
         $settings = Setting::getSettings();
-
-        if ($item_request = $item->isRequestedBy($user)) {
-           $item->cancelRequest();
-           $data['item_quantity'] = $item_request->qty;
-           $logaction->logaction('request_canceled');
-
-            if (($settings->alert_email!='')  && ($settings->alerts_enabled=='1') && (!config('app.lock_passwords'))) {
-                $settings->notify(new RequestAssetCancelationNotification($data));
-            }
-
-            return redirect()->route('requestable-assets')->with('success')->with('success', trans('admin/hardware/message.requests.canceled'));
-
-        } else {
-            $item->request();
-            if (($settings->alert_email!='')  && ($settings->alerts_enabled=='1') && (!config('app.lock_passwords'))) {
-                $logaction->logaction('requested');
-                $settings->notify(new RequestAssetNotification($data));
-            }
-
-
-
-            return redirect()->route('requestable-assets')->with('success')->with('success', trans('admin/hardware/message.requests.success'));
+        $item->request();
+        if (($settings->alert_email!='')  && ($settings->alerts_enabled=='1') && (!config('app.lock_passwords'))) {
+            $logaction->logaction('requested');
+            $settings->notify(new RequestAssetNotification($data));
         }
+
+        return redirect()->route('requestable-assets')->with('success')->with('success', trans('admin/hardware/message.requests.success'));
     }
 
 
@@ -164,6 +148,7 @@ class ViewAssetsController extends Controller
         $data['item'] = $asset;
         $data['target'] =  Auth::user();
         $data['item_quantity'] = 1;
+        $data['item_details'] = '';
         $settings = Setting::getSettings();
 
         $logaction = new Actionlog();
@@ -179,24 +164,14 @@ class ViewAssetsController extends Controller
 
 
         // If it's already requested, cancel the request.
-        if ($asset->isRequestedBy(Auth::user())) {
-            $asset->cancelRequest();
-            $asset->decrement('requests_counter', 1);
-            
-            $logaction->logaction('request canceled');
-            $settings->notify(new RequestAssetCancelationNotification($data));
-            return redirect()->route('requestable-assets')
-                ->with('success')->with('success', trans('admin/hardware/message.requests.cancel-success'));
-        } else {
 
-            $logaction->logaction('requested');
-            $asset->request();
-            $asset->increment('requests_counter', 1);
-            $settings->notify(new RequestAssetNotification($data));
+        $logaction->logaction('requested');
+        $asset->request();
+        $asset->increment('requests_counter', 1);
+        $settings->notify(new RequestAssetNotification($data));
 
 
-            return redirect()->route('requestable-assets')->with('success')->with('success', trans('admin/hardware/message.requests.success'));
-        }
+        return redirect()->route('requestable-assets')->with('success')->with('success', trans('admin/hardware/message.requests.success'));
 
 
     }

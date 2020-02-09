@@ -25,6 +25,7 @@ class RequestAssetNotification extends Notification
         $this->item = $params['item'];
         $this->item_type = $params['item_type'];
         $this->item_quantity = $params['item_quantity'];
+        $this->item_details = $params['item_details'];
         $this->note = '';
         $this->last_checkout = '';
         $this->expected_checkin = '';
@@ -122,6 +123,7 @@ class RequestAssetNotification extends Notification
                 'expected_checkin'  => $this->expected_checkin,
                 'intro_text'        => trans('mail.a_user_requested'),
                 'qty'           => $this->item_quantity,
+                'details'       => $this->item_details,
             ])
             ->subject(trans('mail.Item_Requested'));
 

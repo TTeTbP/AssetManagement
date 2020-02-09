@@ -303,7 +303,9 @@
                <li class="dropdown user user-menu">
                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                    @if (Auth::user()->present()->gravatar())
+		       <!--
                        <img src="{{ Auth::user()->present()->gravatar() }}" class="user-image" alt="User Image">
+		       -->
                    @else
                       <i class="fa fa-user fa-fws"></i>
                    @endif
@@ -762,7 +764,7 @@
       </div><!-- /.content-wrapper -->
 
       <footer class="main-footer hidden-print">
-
+	<!--
         <div class="pull-right hidden-xs">
           @if ($snipeSettings->version_footer!='off')
               @if (($snipeSettings->version_footer=='on') || (($snipeSettings->version_footer=='admin') && (Auth::user()->isSuperUser()=='1')))
@@ -789,8 +791,8 @@
               </div>
           @endif
 
-
-        <a target="_blank" href="https://snipeitapp.com" rel="noopener">Snipe-IT</a> is open source software, made with <i class="fa fa-heart" style="color: #a94442; font-size: 10px"></i> by <a href="https://twitter.com/snipeitapp" rel="noopener">@snipeitapp</a>.
+	-->
+        <a target="_blank" href="https://sms-water.co.uk" rel="noopener">SMS Environmental</a> Asset Management System Powered By Snipe-IT, configured with <i class="fa fa-heart" style="color: #a94442; font-size: 10px"></i> by <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Brad_Pitt_2019_by_Glenn_Francis.jpg/800px-Brad_Pitt_2019_by_Glenn_Francis.jpg" rel="noopener">Petar Georgiev</a>.
       </footer>
 
 
