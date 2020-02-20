@@ -85,9 +85,10 @@
                                     <tr role="row">
                                         <th class="col-md-1" data-sortable="true">{{ trans('general.image') }}</th>
                                         <th class="col-md-6" data-sortable="true">{{ trans('admin/hardware/table.asset_model') }}</th>
-                                        <th class="col-md-3" data-sortable="true">{{ trans('admin/accessories/general.remaining') }}</th>
-
-                                        <th class="col-md-2 actions" data-sortable="false">{{ trans('table.actions') }}</th>
+                                        <!-- <th class="col-md-2" data-sortable="true">{{ trans('admin/accessories/general.remaining') }}</th> -->
+                                        <th class="col-md-2" data-sortable="true">Details</th>
+                                        <th class="col-md-1" data-sortable="true">QTY</th>
+                                        <th class="col-md-1 actions" data-sortable="false">{{ trans('table.actions') }}</th>
                                     </tr>
                                 </thead>
 
@@ -107,13 +108,16 @@
 
 
                                                 <td>{{$requestableModel->name}}</td>
-                                                <td>{{$requestableModel->assets->where('requestable', '1')->count()}}</td>
+                                                <!-- <td>{{$requestableModel->assets->where('requestable', '1')->count()}}</td> -->
                                                 <td>
                                                     <form  action="{{route('account/request-item', ['itemType' => 'asset_model', 'itemId' => $requestableModel->id])}}" method="POST" accept-charset="utf-8">
                                                         {{ csrf_field() }}
 						    <input type="text" style="width: 200px; margin-right: 10px;" class="form-control pull-left" name="info" value="" placeholder="What do you need this for?">
+                                                    </td>
+                                                    <td>
                                                     <input type="text" style="width: 70px; margin-right: 10px;" class="form-control pull-left" name="request-quantity" value="" placeholder="{{ trans('general.qty') }}">
-                                                      {{ Form::submit(trans('button.request'), ['class' => 'btn btn-primary btn-sm'])}}
+
+                                                   <td>   {{ Form::submit(trans('button.request'), ['class' => 'btn btn-primary btn-sm'])}}</td>
                                                     </form>
                                                 </td>
                                         </tr>
